@@ -1,0 +1,32 @@
+services:
+  ts-vintage-story-proxy:
+    image: tailscale/tailscale:latest
+    hostname: ts-vintage-story-proxy
+    container_name: ts-vintage-story-proxy
+    ports:
+      - "42420:42420/tcp"
+      - "42420:42420/udp"
+    environment:
+      - TS_AUTHKEY=${TS_AUTHKEY:?TS_AUTHKEY must be set}
+      - TS_STATE_DIR=/var/lib/tailscale
+    volumes:
+      - tailscale-data-vintage-story:/var/lib/tailscale
+    devices:
+      - /dev/net/tun:/dev/net/tun
+    cap_add:
+      - net_admin
+      - sys_module
+    restart: unless-stopped
+  server:
+    build:
+      context: .
+      dockerfile: Server.dockerfile
+    network_mode: service:ts-vintage-story-proxy
+    depends_on:
+      - ts-vintage-story-proxy
+    restart: unless-stopped
+    volumes:
+      - ./data:/srv/gameserver/data/vs
+volumes:
+  tailscale-data-vintage-story:
+    driver: local
