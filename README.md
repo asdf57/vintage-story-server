@@ -5,7 +5,7 @@ This repo runs a Vintage Story `1.22.0` server in Docker and places it behind a 
 ## Host
 
 1. In the Tailscale admin UI, create a new auth key.
-2. Copy [.env.example](./vintage-story-server/.env.example) to `.env`.
+2. Copy `.env.example` to `.env`.
 3. Put your auth key in `.env` as `TS_AUTHKEY=...`.
 4. Start the stack:
 
@@ -14,7 +14,7 @@ This repo runs a Vintage Story `1.22.0` server in Docker and places it behind a 
 ```
 
 This will:
-- build the Vintage Story server image from [Server.dockerfile](./vintage-story-server/Server.dockerfile)
+- build the Vintage Story server image from `Server.dockerfile`
 - create `./data` if it does not already exist
 - fix `./data` ownership with `sudo chown` if it is not writable by your user
 - start both the Tailscale proxy and the game server with Docker Compose
@@ -27,6 +27,35 @@ After the stack is up:
 2. Find the machine created for this stack.
 3. Use the Tailscale UI to share that machine.
 4. Send the generated share link to your friends.
+
+## Tunables
+
+These are the main values future hosts may want to adjust.
+
+`TS_AUTHKEY`
+- Defined in `.env`.
+- This is the Tailscale auth key used by the proxy container to join your tailnet.
+- Change this whenever you rotate keys or move the stack to a different Tailscale account or tailnet.
+
+`./data`
+- Defined in `docker-compose.yml` as the host bind mount for `/srv/gameserver/data/vs`.
+- This contains the server world, saves, and generated config like `serverconfig.json`.
+- Change this if you want the game data stored somewhere else on the host.
+
+`SERVER_VER`
+- Defined in `Server.dockerfile`.
+- This controls which Vintage Story server version is downloaded into the image.
+- Change this when upgrading or pinning the server version.
+
+`cpus`, `mem_limit`, `mem_reservation`
+- Defined in `docker-compose.yml` under the `server` service.
+- These control how much CPU and memory the Vintage Story server container can use.
+- Change these if the server needs more resources or if you want to constrain it more aggressively on a smaller host.
+
+`42420`
+- Defined in `docker-compose.yml` as the published `TCP` and `UDP` port.
+- This is the default Vintage Story server port.
+- Change this only if you also intend to run the game server on a different port in its config.
 
 ## Consumer
 
