@@ -7,6 +7,10 @@ ENV_FILE=".env"
 SERVER_CONFIG="${DATA_PATH}/serverconfig.json"
 SERVER_CONFIG_TIMEOUT_SECS=60
 TMP_SERVER_CONFIG="${SERVER_CONFIG}.tmp"
+export HOST_UID
+HOST_UID="$(id -u)"
+export HOST_GID
+HOST_GID="$(id -g)"
 
 if [[ ! -f ${ENV_FILE} ]]; then
 	echo "Missing ${ENV_FILE}. Copy .env.example to .env and set TS_AUTHKEY."

@@ -21,6 +21,9 @@ services:
     build:
       context: .
       dockerfile: Server.dockerfile
+      args:
+        HOST_UID: ${HOST_UID:?HOST_UID must be set}
+        HOST_GID: ${HOST_GID:?HOST_GID must be set}
     cpus: 2.0
     mem_limit: 4g
     mem_reservation: 2g

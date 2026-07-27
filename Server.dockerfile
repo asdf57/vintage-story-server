@@ -1,6 +1,8 @@
 FROM debian:trixie-slim
 
 ARG SERVER_VER="1.22.0"
+ARG HOST_UID="1000"
+ARG HOST_GID="1000"
 ENV DEBIAN_FRONTEND=noninteractive
 
 RUN apt-get update \
@@ -16,7 +18,14 @@ RUN apt-get update \
     && apt-get install -y --no-install-recommends dotnet-runtime-10.0 \
     && rm -rf /var/lib/apt/lists/*
 
-RUN adduser --shell /bin/bash --disabled-password --gecos "" gameserver
+RUN addgroup --gid "${HOST_GID}" gameserver \
+    && adduser \
+        --uid "${HOST_UID}" \
+        --gid "${HOST_GID}" \
+        --shell /bin/bash \
+        --disabled-password \
+        --gecos "" \
+        gameserver
 
 RUN mkdir -p /srv/gameserver/vintagestory /srv/gameserver/data/vs
 
