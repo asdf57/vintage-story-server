@@ -2,11 +2,7 @@
 
 set -euo pipefail
 
-DATA_PATH=$(realpath "./data")
 ENV_FILE=".env"
-SERVER_CONFIG="${DATA_PATH}/serverconfig.json"
-SERVER_CONFIG_TIMEOUT_SECS=60
-TMP_SERVER_CONFIG="${SERVER_CONFIG}.tmp"
 export HOST_UID
 HOST_UID="$(id -u)"
 export HOST_GID
@@ -16,6 +12,16 @@ if [[ ! -f ${ENV_FILE} ]]; then
 	echo "Missing ${ENV_FILE}. Copy .env.example to .env and set TS_AUTHKEY."
 	exit 1
 fi
+
+# shellcheck disable=SC1091
+source "${ENV_FILE}"
+
+: "${DATA_PATH:?DATA_PATH must be set in .env}"
+
+DATA_PATH=$(realpath "${DATA_PATH}")
+SERVER_CONFIG="${DATA_PATH}/serverconfig.json"
+SERVER_CONFIG_TIMEOUT_SECS=60
+TMP_SERVER_CONFIG="${SERVER_CONFIG}.tmp"
 
 if ! command -v jq >/dev/null 2>&1; then
 	echo "Missing required dependency: jq"

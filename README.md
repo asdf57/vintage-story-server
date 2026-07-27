@@ -6,7 +6,7 @@ This repo runs a Vintage Story `1.22.0` server in Docker and places it behind a 
 
 1. In the Tailscale admin UI, create a new auth key.
 2. Copy `.env.example` to `.env`.
-3. Put your auth key in `.env` as `TS_AUTHKEY=...`.
+3. Fill in the values in `.env`. At minimum, set `TS_AUTHKEY`.
 4. Start the stack:
 
 ```bash
@@ -58,22 +58,24 @@ These are the main values future hosts may want to adjust.
 - This is the Tailscale auth key used by the proxy container to join your tailnet.
 - Change this whenever you rotate keys or move the stack to a different Tailscale account or tailnet.
 
-`./data`
-- Defined in `docker-compose.yml` as the host bind mount for `/srv/gameserver/data/vs`.
+`DATA_PATH`
+- Defined in `.env`.
+- Used by `run.sh` and `docker-compose.yml` as the host bind mount for `/srv/gameserver/data/vs`.
 - This contains the server world, saves, and generated config like `serverconfig.json`.
 - Change this if you want the game data stored somewhere else on the host.
 
 `SERVER_VER`
-- Defined in `Server.dockerfile`.
+- Defined in `.env` and passed into the image build.
 - This controls which Vintage Story server version is downloaded into the image.
 - Change this when upgrading or pinning the server version.
 
-`cpus`, `mem_limit`, `mem_reservation`
-- Defined in `docker-compose.yml` under the `server` service.
+`SERVER_CPUS`, `SERVER_MEM_LIMIT`, `SERVER_MEM_RESERVATION`
+- Defined in `.env`.
 - These control how much CPU and memory the Vintage Story server container can use.
 - Change these if the server needs more resources or if you want to constrain it more aggressively on a smaller host.
 
-`42420`
-- Defined in `docker-compose.yml` as the published `TCP` and `UDP` port.
+`SERVER_PORT`
+- Defined in `.env`.
+- Used by `docker-compose.yml` for the published `TCP` and `UDP` port.
 - This is the default Vintage Story server port.
 - Change this only if you also intend to run the game server on a different port in its config.
