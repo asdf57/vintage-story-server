@@ -2,7 +2,7 @@
 
 This repo runs a Vintage Story `1.22.0` server in Docker and places it behind a Tailscale sidecar container. The game server data is stored in `./data` (feel free to change this!).
 
-## Host
+## Host Setup
 
 1. In the Tailscale admin UI, create a new auth key.
 2. Copy `.env.example` to `.env`.
@@ -28,7 +28,14 @@ After the stack is up:
 3. Use the Tailscale UI to share that machine.
 4. Send the generated share link to your friends.
 
-## Scripts
+## Consumer Setup
+
+1. Install Tailscale and sign in.
+2. Open the share link sent by the host.
+3. Accept access to the shared machine in Tailscale.
+4. Open Vintage Story and connect to the shared machine on port `42420`.
+
+## Host Scripts
 
 These are the host-side scripts you are expected to run directly.
 
@@ -42,7 +49,7 @@ These are the host-side scripts you are expected to run directly.
 - Stops the Compose stack.
 - Use this when you want to shut down both the Vintage Story server and the Tailscale sidecar cleanly.
 
-## Tunables
+## Host Tunables
 
 These are the main values future hosts may want to adjust.
 
@@ -70,10 +77,3 @@ These are the main values future hosts may want to adjust.
 - Defined in `docker-compose.yml` as the published `TCP` and `UDP` port.
 - This is the default Vintage Story server port.
 - Change this only if you also intend to run the game server on a different port in its config.
-
-## Consumer
-
-1. Install Tailscale and sign in.
-2. Open the share link sent by the host.
-3. Accept access to the shared machine in Tailscale.
-4. Open Vintage Story and connect to the shared machine on port `42420`.
