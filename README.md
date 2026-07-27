@@ -14,8 +14,9 @@ This repo runs a Vintage Story `1.22.0` server in Docker and places it behind a 
 ```
 
 This will:
-- build the Vintage Story server image from [Server.dockerfile](/home/archusr/dev/vintage-story-server/Server.dockerfile)
+- build the Vintage Story server image from [Server.dockerfile](./vintage-story-server/Server.dockerfile)
 - create `./data` if it does not already exist
+- fix `./data` ownership with `sudo chown` if it is not writable by your user
 - start both the Tailscale proxy and the game server with Docker Compose
 
 The server is exposed on port `42420` over both `TCP` and `UDP`.
@@ -33,4 +34,3 @@ After the stack is up:
 2. Open the share link sent by the host.
 3. Accept access to the shared machine in Tailscale.
 4. Open Vintage Story and connect to the shared machine on port `42420`.
-
