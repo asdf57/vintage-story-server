@@ -21,6 +21,9 @@ services:
     build:
       context: .
       dockerfile: Server.dockerfile
+    cpus: 2.0
+    mem_limit: 4g
+    mem_reservation: 2g
     network_mode: service:ts-vintage-story-proxy
     depends_on:
       - ts-vintage-story-proxy
