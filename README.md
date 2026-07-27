@@ -28,6 +28,20 @@ After the stack is up:
 3. Use the Tailscale UI to share that machine.
 4. Send the generated share link to your friends.
 
+## Scripts
+
+These are the host-side scripts you are expected to run directly.
+
+`./run.sh`
+- Builds and starts the full stack.
+- Ensures `./data` exists and is writable by your user.
+- Waits for `data/serverconfig.json` to appear, then sets `WhitelistMode` to `1`.
+- Use this for first boot, rebuilds, upgrades, and normal restarts.
+
+`./stop.sh`
+- Stops the Compose stack.
+- Use this when you want to shut down both the Vintage Story server and the Tailscale sidecar cleanly.
+
 ## Tunables
 
 These are the main values future hosts may want to adjust.
